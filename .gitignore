@@ -39,7 +39,17 @@ vignettes/*.pdf
 .Renviron
 
 # basic scripts
-/*
-!/docs/
-!/docs
-!.gitignore
+coding-assumptions.Rmd
+index.Rmd
+mapping-and-findings.Rmd
+network-review-results.Rmd
+reasonableness-of-results.Rmd
+_site.yml
+/shapefiles
+/geo
+build_site.r
+Chapter30_2020_scores.csv
+MDOT_2020_Documentation.Rproj
+network_connectivity_policy.png
+network_minutes_evaluators.png
+theme.css
