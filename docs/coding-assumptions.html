@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Coding Assumptions</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="K:\Tools\Website Styling\RPG_Bootstrap_Arial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MDOT Chapter 30 Project Report: US 29 BRT</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="coding-assumptions.html">Coding Assumptions</a>
+</li>
+<li>
+  <a href="network-review-results.html">Network Review Results</a>
+</li>
+<li>
+  <a href="reasonableness-of-results.html">Reasonableness of Results</a>
+</li>
+<li>
+  <a href="mapping-and-findings.html">Mapping and Findings</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Coding Assumptions</h1>
+
+</div>
+
+
+<p>The analysis of Project 21-23 required developing General Transit Feed Specification (GTFS) files to model the proposed BRT service in addition to the planned Flash 29 BRT route.</p>
+<p>The US 29 BRT would carry passengers along a 30-mile route between Ellicott City, Maryland, in the north and the Silver Spring Transit Center in the south. The Flash 29 BRT will operate a route similar to the US 29 BRT service between Burtonsville and the Silver Springs Transit Center while providing service to additional stops.</p>
+<p>The 29 BRT project would make a total of 11 stops at the following locations: US 40 and Normandy Center Drive, its northern terminus; MD 103 and Long Gate Parkway; Symphony Woods Road and Mall Ring Road; Johns Hopkins Road and APL Drive; MD 216 and Old Columbia Road; US 29 and National Drive; Briggs Chaney Road and Gateshead Manor Way; US 29 and Tech Road; US 29 and Burnt Mills Avenue; US 29 and MD 193; and Silver Spring Metro (MD 384 and MD 410), its southern terminus. At the Silver Springs Transit Center, riders will be able to connect to the WMATA Red Line and MARC trains.</p>
+<p>Stops would vary depending on the direction of transit vehicles and time of day, as detailed in the next section. The 29 BRT would provide service to five stops the Flash 29 is also planned to serve. These stops are at Burtonsville, US 29 and Tech Road, US 29 and Burnt Mills Avenue, US 29 and Maryland 193, and Silver Spring. Vehicles would operate on 10-minute headways Monday through Friday from 5:30 a.m. to 7:30 p.m. They would use dedicated ROW on the shoulder of US 29 north of Tech Road and in mixed traffic south of Tech Road.</p>
+<p>The 29 BRT service is expected to have a 94-minute travel time from US 40 and Normandy Center Drive to Silver Spring Metro. Service is expected to operate Monday through Friday, from 5:30 AM to midnight. Headways are expected to be 10 minutes during the day, and 30 minutes for late night and weekend service.</p>
+<div id="alignment" class="section level2">
+<h2>Alignment</h2>
+<p>Service on the 29 BRT corridor would operate in mixed traffic and dedicated right of way (ROW) on the inside road shoulder. The route operates primarily along the US 29 corridor, except for portions where vehicles would exit to access a transit stop off the corridor. The service is designed around peak and off-peak periods, with stops served varying with the time of day and direction (north or south) of transit vehicles.</p>
+<p>In the morning, US 29 vehicles heading south toward the Silver Spring Transit Center would be heading in the peak direction, with northbound vehicles heading in the off-peak direction. In the evening, vehicles headed north toward Ellicott City, ending at US 40 and Normandy Center Drive, would be heading in the peak direction, with southbound vehicles heading in the off-peak direction.</p>
+<p>The following describes the route alignment in the southbound peak direction, and notes deviations in service with the off-peak direction:</p>
+<ul>
+<li><p>Southbound US 29 BRT service would begin at US 40 (Baltimore National Pike) and Normandy Center Drive in Ellicott City. Vehicles would begin the route south by entering US 29 by using ROW on the road shoulder.</p></li>
+<li><p>Once on US 29, vehicles would continue south, exiting the highway at the MD-103 East (St. Johns Lane) exit to serve a stop at the Long Gate shopping center (MD 103 and Long Gate Parkway).</p></li>
+<li><p>The route would then serve the Columbia Town Center, reaching the stop from US 29 via the Little Patuxent Parkway. The route would serve this stop only in the peak direction. In the off-peak direction, the it would serve the John Hopkins University Applied Physics Lab at Johns Hopkins Road and Applied Physics Lab Drive.</p></li>
+<li><p>Service would continue south on US 29, exiting at Scaggsville Road (MD 216) to serve a stop at the Scaggsville Park and Ride.</p></li>
+<li><p>From the Scaggsville Park and Ride, the route would continue south on US 29 to serve the Burtonsville Park and Ride via the National Drive.</p></li>
+<li><p>From there, the route would continue south on US 29 to serve a stop at the Burtonsville Park and Ride.</p></li>
+<li><p>Service would continue south on US 29, existing at Briggs Chaney Road to serve the Briggs Chaney Park and Ride.</p></li>
+<li><p>The route will continue south on US 29, where the alignment would shift to mix traffic after serving a stop at Tech Road, ending at the Silver Spring Transit Center.</p></li>
+</ul>
+<p>The complementary Flash BRT service, consisting of both express and local service, would also begin at Silver Spring Transit Center, with transit vehicles traveling north along US 29. Stops would occur at Fenton Street, Four Corners, Burnt Mills, Oak Leaf Drive, White Oak Transit Center, April Lane, Tech Road, Briggs Chaney, Castle Boulevard, and Burtonsville, with variations dependent on service patterns.</p>
+<p>The details of how the US 29 BRT is represented in GTFS are provided below by describing four key tables in the feed: Stops.txt, Trips.txt, Stop_times.txt, and Frequencies.txt. Other tables in the new Project 20-19 feed are based on standard tables defined in the Chapter 30 Transit Accessibility Scoring Guide (“Standard GTFS Tables” section) and are not described here.</p>
+</div>
+<div id="attributes" class="section level2">
+<h2>Attributes</h2>
+<p>The attributes of the base multimodal network were modified through the addition of the newly developed GTFS feed modeling Project 21-23. The details of how Project 21-23 was represented in GTFS are provided below by describing four key tables of the feeds: Stops.txt, Trips.txt, Stop_times.txt, and Frequencies.txt.</p>
+<p>Other tables in the new project feed are based on standard tables defined in the Chapter 30 Transit Accessibility Scoring Guide (“Standard GTFS Tables” section) and are not described here.</p>
+<div id="stops.txt" class="section level3">
+<h3>Stops.txt</h3>
+<p><strong>Table 1. US 29 BRT Stops Table</strong></p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+stop_id
+</th>
+<th style="text-align:left;">
+stop_code
+</th>
+<th style="text-align:left;">
+stop_name
+</th>
+<th style="text-align:left;">
+stop_desc
+</th>
+<th style="text-align:right;">
+stop_lon
+</th>
+<th style="text-align:right;">
+stop_lat
+</th>
+<th style="text-align:left;">
+zone_id
+</th>
+<th style="text-align:left;">
+stop_url
+</th>
+<th style="text-align:left;">
+location_type
+</th>
+<th style="text-align:left;">
+parent_station
+</th>
+<th style="text-align:left;">
+stop_timezone
+</th>
+<th style="text-align:left;">
+wheelchair_boarding
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Silver Spring Transit Center
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-77.03095
+</td>
+<td style="text-align:right;">
+38.99423
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3N
+</td>
+<td style="text-align:left;">
+3N
+</td>
+<td style="text-align:left;">
+University Boulivard - Northbound
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-77.01415
+</td>
+<td style="text-align:right;">
+39.01864
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3S
+</td>
+<td style="text-align:left;">
+3S
+</td>
+<td style="text-align:left;">
+University Boulivard - Southbound
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-77.01264
+</td>
+<td style="text-align:right;">
+39.02065
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4N
+</td>
+<td style="text-align:left;">
+4N
+</td>
+<td style="text-align:left;">
+Burnt Mills - Northbound
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-77.00441
+</td>
+<td style="text-align:right;">
+39.03136
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4S
+</td>
+<td style="text-align:left;">
+4S
+</td>
+<td style="text-align:left;">
+Burnt Mills - Southbound
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-77.00456
+</td>
+<td style="text-align:right;">
+39.03167
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5N
+</td>
+<td style="text-align:left;">
+5N
+</td>
+<td style="text-align:left;">
+Tech Road - Northbound
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.96800
+</td>
+<td style="text-align:right;">
+39.05799
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5S
+</td>
+<td style="text-align:left;">
+5S
+</td>
+<td style="text-align:left;">
+Tech Road - Southbound
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.96834
+</td>
+<td style="text-align:right;">
+39.05832
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+Burtonsville
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.93060
+</td>
+<td style="text-align:right;">
+39.11402
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7N
+</td>
+<td style="text-align:left;">
+7N
+</td>
+<td style="text-align:left;">
+Applied Physics Lab
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.89941
+</td>
+<td style="text-align:right;">
+39.16079
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7S
+</td>
+<td style="text-align:left;">
+7S
+</td>
+<td style="text-align:left;">
+Scaggsville
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.90868
+</td>
+<td style="text-align:right;">
+39.14685
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+Columbia Town Center
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.86005
+</td>
+<td style="text-align:right;">
+39.21250
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+Long Gate
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.81801
+</td>
+<td style="text-align:right;">
+39.25280
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+US 40 West
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+-76.80620
+</td>
+<td style="text-align:right;">
+39.28560
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="trips.txt-vehicle-trip-enumeration" class="section level3">
+<h3>Trips.txt (vehicle-trip enumeration)</h3>
+<p>The trips file represents a single route with a seven-day travel profile. The file further splits the route into trips, each identified by a specific ID, that reflect the various frequencies of the line. The US 29 BRT is represented as two routes, one for northbound trips and another for southbound trips. These different routes represent the differing stop sequences for transit vehicles depending on their direction of travel.</p>
+<p><strong>Table 2. Project 20-34 Trips Table</strong></p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+route_id
+</th>
+<th style="text-align:left;">
+service_id
+</th>
+<th style="text-align:left;">
+trip_id
+</th>
+<th style="text-align:left;">
+trip_headsign
+</th>
+<th style="text-align:left;">
+trip_short_name
+</th>
+<th style="text-align:left;">
+direction_id
+</th>
+<th style="text-align:left;">
+block_id
+</th>
+<th style="text-align:left;">
+shape_id
+</th>
+<th style="text-align:left;">
+wheelchair_accessible
+</th>
+<th style="text-align:left;">
+bikes_allowed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+US29BRT
+</td>
+<td style="text-align:left;">
+MTWTF
+</td>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+US29BRT
+</td>
+<td style="text-align:left;">
+MTWTF
+</td>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="stop_times.txt-transit-schedule" class="section level3">
+<h3>Stop_times.txt (transit schedule)</h3>
+<p>The stop times table was developed by determining an average travel speed based on the travel time and approximate length of the line.</p>
+<p><strong>Table 3. US 29 BRT Stops Times Table</strong></p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+trip_id
+</th>
+<th style="text-align:left;">
+arrival_time
+</th>
+<th style="text-align:left;">
+departure_time
+</th>
+<th style="text-align:left;">
+stop_id
+</th>
+<th style="text-align:right;">
+stop_sequence
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:01:00
+</td>
+<td style="text-align:left;">
+06:01:00
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:10:00
+</td>
+<td style="text-align:left;">
+06:10:00
+</td>
+<td style="text-align:left;">
+3N
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:12:32
+</td>
+<td style="text-align:left;">
+06:12:32
+</td>
+<td style="text-align:left;">
+4N
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:19:00
+</td>
+<td style="text-align:left;">
+06:19:00
+</td>
+<td style="text-align:left;">
+5N
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:32:00
+</td>
+<td style="text-align:left;">
+06:32:00
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:49:01
+</td>
+<td style="text-align:left;">
+06:49:01
+</td>
+<td style="text-align:left;">
+7N
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+07:06:43
+</td>
+<td style="text-align:left;">
+07:06:43
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+07:23:08
+</td>
+<td style="text-align:left;">
+07:23:08
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+07:31:00
+</td>
+<td style="text-align:left;">
+07:31:00
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+06:01:00
+</td>
+<td style="text-align:left;">
+06:01:00
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+06:09:41
+</td>
+<td style="text-align:left;">
+06:09:41
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+06:24:25
+</td>
+<td style="text-align:left;">
+06:24:25
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+06:53:11
+</td>
+<td style="text-align:left;">
+06:53:11
+</td>
+<td style="text-align:left;">
+7S
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+07:04:00
+</td>
+<td style="text-align:left;">
+07:04:00
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+07:17:00
+</td>
+<td style="text-align:left;">
+07:17:00
+</td>
+<td style="text-align:left;">
+5S
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+07:35:00
+</td>
+<td style="text-align:left;">
+07:35:00
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="frequencies.txt-frequency-of-recurring-trips" class="section level3">
+<h3>Frequencies.txt (frequency of recurring trips)</h3>
+<p>A frequencies table was developed to model the differing headways of the line throughout a day of typical service. The table defines a start and end time for a headway, with each headway associated with a trip ID. The headways are provided in seconds. The trip IDs link the headway times to the individual trips that comprise the route described in the trips.txt file. When frequencies table is used, the stop times file defines a template of stop sequences and travel times between stops, and the frequencies table defines the interval of recurrence for each trip following the stop times template.</p>
+<p><strong>Table 4. US 29 BRT Frequencies Table</strong></p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+trip_id
+</th>
+<th style="text-align:left;">
+start_time
+</th>
+<th style="text-align:left;">
+end_time
+</th>
+<th style="text-align:right;">
+headway_secs
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+us29_brt_NB
+</td>
+<td style="text-align:left;">
+06:00:01
+</td>
+<td style="text-align:left;">
+10:00:00
+</td>
+<td style="text-align:right;">
+600
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+us29_brt_SB
+</td>
+<td style="text-align:left;">
+06:00:01
+</td>
+<td style="text-align:left;">
+10:00:00
+</td>
+<td style="text-align:right;">
+600
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="network" class="section level3">
+<h3>Network</h3>
+<p><strong>Figure 2. Base Network</strong></p>
+<p><img src="coding-assumptions_files/figure-html/base%20network-1.png" width="672" /></p>
+<p><strong>Figure 3. Build Network</strong><br />
+<img src="coding-assumptions_files/figure-html/build%20network-1.png" width="672" /></p>
+</div>
+<div id="modifications-to-existing-gtfs-feeds" class="section level3">
+<h3>Modifications to Existing GTFS Feeds</h3>
+<p>Existing transit service at Columbia Town Center is expected to be modified in conjunction with the implementation of BRT service in order to facilitate transfers between service. Representing this required one stop position to be moved in the existing GTFS feed to represented anticipated service changes. THis change is represented in Figures 4 and 5.</p>
+<p><strong>Figure 4. Columbia Town Center Base Stop Configuration</strong></p>
+<div id="htmlwidget-c83b7c0fa986264b2246" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c83b7c0fa986264b2246">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"createMapPane","args":["tmap402",402]},{"method":"createMapPane","args":["tmap403",403]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[39.2129660004315,39.206849999939,39.2067500002585,39.2129920002522,39.2145545371885,39.2070322621602,39.2071338827002,39.2129260149188,39.2114854722184,39.2152797176738,39.2190896319189,39.2192325508392,39.2152792881098,39.2121186693882,39.2116852197611,39.213067531226,39.217855688413,39.2194070070439,39.2189504134816,39.2180821681561,39.2129712100889],[-76.8635489990012,-76.8668359993674,-76.8664529992592,-76.8632169984507,-76.863866023134,-76.8669809249852,-76.8666037589293,-76.8633692215164,-76.8587653689365,-76.8574253493104,-76.8584166027898,-76.858994791315,-76.8577341967204,-76.8581123605174,-76.8590291883312,-76.8634515806412,-76.8634000296101,-76.861095546985,-76.8616149964548,-76.8633014628891,-76.8684737079518],[4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928],["Marylandtransitadministration.11779","Marylandtransitadministration.11782","Marylandtransitadministration.11843","Marylandtransitadministration.11844","RTACentralMD.169","RTACentralMD.167","RTACentralMD.170","RTACentralMD.850","RTACentralMD.682","RTACentralMD.684","RTACentralMD.673","RTACentralMD.674","RTACentralMD.683","RTACentralMD.681","RTACentralMD.Main.Library","RTACentralMD.849","RTACentralMD.676","RTACentralMD.815","RTACentralMD.675","RTACentralMD.677","RTACentralMD.1003"],"base_stops_bbox",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20"],"fillOpacity":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},null,null,["<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11779<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11779<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11779<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>COLUMBIA MALL &amp; SOUTH RING RD eb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11782<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11782<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11782<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>BROKEN LAND &amp; HICKORY RIDGE sb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11843<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11843<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11843<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>BROKENLAND &amp; HICKORY RDG opp nb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11844<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11844<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11844<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>COLUMBIA MALL &amp; RING RD wb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:169<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:169<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Mall<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:167<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:167<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Broken Land Pkwy @ Hickory Ridge Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:170<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:170<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Broken Land Pkwy @ Hickory Ridge Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:850<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:850<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Loop Rd @ Mall Access Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:682<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:682<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Howard County Library System<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:684<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:684<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Wincopin Cir<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:673<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:673<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Sterrett Pl<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:674<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:674<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Sterrett Pl<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:683<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:683<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Wincopin Cir<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:681<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:681<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Swift Stream Pl<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:Main Library<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:Main Library<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Main Library<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:849<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:849<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Loop Rd @ Legg Mason<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:676<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:676<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Mall @ Nordstrom<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:815<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:815<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Windstream Dr @ Loop Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:675<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:675<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Windstream Dr @ Loop Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:677<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:677<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Mall @ Nordstrom<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMD:1003<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMD:1003<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Governor Warfield Pkwy<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>"],null,["Marylandtransitadministration:11779","Marylandtransitadministration:11782","Marylandtransitadministration:11843","Marylandtransitadministration:11844","RTACentralMD:169","RTACentralMD:167","RTACentralMD:170","RTACentralMD:850","RTACentralMD:682","RTACentralMD:684","RTACentralMD:673","RTACentralMD:674","RTACentralMD:683","RTACentralMD:681","RTACentralMD:Main Library","RTACentralMD:849","RTACentralMD:676","RTACentralMD:815","RTACentralMD:675","RTACentralMD:677","RTACentralMD:1003"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[-76.8587013158332,-76.8635489990012],"lat":[39.2197452637622,39.2129660004315]}]],[[{"lng":[-76.8635489990012,-76.8591702626898],"lat":[39.2129660004315,39.2197458274341]}]],[[{"lng":[-76.8635489990012,-76.8593850902639],"lat":[39.2129660004315,39.21974608503]}]],[[{"lng":[-76.8635489990012,-76.8668359993674],"lat":[39.2129660004315,39.206849999939]}]],[[{"lng":[-76.8635489990012,-76.8507385360301],"lat":[39.2129660004315,39.2081698313416]}]],[[{"lng":[-76.8599854601992,-76.8693735011205],"lat":[39.2197468028378,39.2073117391735]}]],[[{"lng":[-76.8509718253901,-76.8507146236676],"lat":[39.2197357029654,39.2195459494514]}]],[[{"lng":[-76.8668359993674,-76.8652495138687],"lat":[39.206849999939,39.2052564001391]}]],[[{"lng":[-76.8689201104393,-76.8635489990012],"lat":[39.205260558168,39.2129660004315]}]],[[{"lng":[-76.8693724081828,-76.8604638610603],"lat":[39.2079059703762,39.2197473726194]}]],[[{"lng":[-76.8693533171967,-76.8635489990012],"lat":[39.2182841370899,39.2129660004315]}]],[[{"lng":[-76.8507382956261,-76.8632169984507],"lat":[39.208284219973,39.2129920002522]}]],[[{"lng":[-76.8649775576819,-76.8664529992592],"lat":[39.2052560874998,39.2067500002585]}]],[[{"lng":[-76.8664529992592,-76.8632169984507],"lat":[39.2067500002585,39.2129920002522]}]],[[{"lng":[-76.8632169984507,-76.8584200345992],"lat":[39.2129920002522,39.2197449247644]}]],[[{"lng":[-76.8632169984507,-76.8693593873767],"lat":[39.2129920002522,39.2149846218511]}]],[[{"lng":[-76.8632169984507,-76.8686432687316],"lat":[39.2129920002522,39.2052602485671]}]],[[{"lng":[-76.8632169984507,-76.8693528016182],"lat":[39.2129920002522,39.2185643713738]}]],[[{"lng":[-76.8507143577361,-76.8507989799905],"lat":[39.219672443571,39.2197354833493]}]],[[{"lng":[-76.8596314513605,-76.8632169984507],"lat":[39.2197463799532,39.2129920002522]}]],[[{"lng":[-76.8684737079518,-76.8693624551531],"lat":[39.2129712100889,39.213316979393]}]],[[{"lng":[-76.8634756301798,-76.8666037589293],"lat":[39.2052543495391,39.2071338827002]}]],[[{"lng":[-76.8669809249852,-76.8641133618027],"lat":[39.2070322621602,39.205255089841]}]],[[{"lng":[-76.863866023134,-76.8684737079518],"lat":[39.2145545371885,39.2129712100889]}]],[[{"lng":[-76.863866023134,-76.8669809249852],"lat":[39.2145545371885,39.2070322621602]}]],[[{"lng":[-76.863866023134,-76.8634000296101],"lat":[39.2145545371885,39.217855688413]}]],[[{"lng":[-76.863866023134,-76.8693526282081],"lat":[39.2145545371885,39.2186586251252]}]],[[{"lng":[-76.863866023134,-76.8633692215164],"lat":[39.2145545371885,39.2129260149188]}]],[[{"lng":[-76.8666037589293,-76.863866023134],"lat":[39.2071338827002,39.2145545371885]}]],[[{"lng":[-76.8693610795804,-76.863866023134],"lat":[39.2140647501403,39.2145545371885]}]],[[{"lng":[-76.8584166027898,-76.8585633932334],"lat":[39.2190896319189,39.2197450976232]}]],[[{"lng":[-76.858994791315,-76.8633014628891],"lat":[39.2192325508392,39.2180821681561]}]],[[{"lng":[-76.858994791315,-76.8577341967204],"lat":[39.2192325508392,39.2152792881098]}]],[[{"lng":[-76.8616149964548,-76.8633014628891],"lat":[39.2189504134816,39.2180821681561]}]],[[{"lng":[-76.8634000296101,-76.8584166027898],"lat":[39.217855688413,39.2190896319189]}]],[[{"lng":[-76.8634000296101,-76.861095546985],"lat":[39.217855688413,39.2194070070439]}]],[[{"lng":[-76.8633014628891,-76.863866023134],"lat":[39.2180821681561,39.2145545371885]}]],[[{"lng":[-76.8581123605174,-76.8590291883312],"lat":[39.2121186693882,39.2116852197611]}]],[[{"lng":[-76.8587653689365,-76.8574253493104],"lat":[39.2114854722184,39.2152797176738]}]],[[{"lng":[-76.8577341967204,-76.8581123605174],"lat":[39.2152792881098,39.2121186693882]}]],[[{"lng":[-76.8574253493104,-76.8584166027898],"lat":[39.2152797176738,39.2190896319189]}]],[[{"lng":[-76.8587908544569,-76.858994791315],"lat":[39.2197453715319,39.2192325508392]}]],[[{"lng":[-76.8609483402984,-76.8616149964548],"lat":[39.219747947653,39.2189504134816]}]],[[{"lng":[-76.8693529291125,-76.863866023134],"lat":[39.2184950741312,39.2145545371885]}]],[[{"lng":[-76.861095546985,-76.8607733775049],"lat":[39.2194070070439,39.2197477402185]}]],[[{"lng":[-76.8634515806412,-76.863866023134],"lat":[39.213067531226,39.2145545371885]}]],[[{"lng":[-76.8633692215164,-76.8587653689365],"lat":[39.2129260149188,39.2114854722184]}]],[[{"lng":[-76.8590291883312,-76.8634515806412],"lat":[39.2116852197611,39.213067531226]}]]],["X27643.5763042834","X3068.47903623668","X4457.99626642588","X2414.47167115758","X16574.8112011145","X95515.0456562026","X14208.4877687648","X6941.85501581185","X27328.8205512419","X95615.9747217576","X2957.55172436829","X16494.2230350268","X6991.52513210117","X2451.43389636549","X27589.6832529454","X8055.26236285065","X27382.1032366811","X3058.73877262184","X14369.1899593617","X3644.65259518879","X972.464021802207","X5378.24766396415","X5496.46292386483","X1427.23873774355","X2878.45312943926","X1209.58908569577","X2557.98868414323","X609.622146794369","X2811.90632598107","X2178.18894799562","X493.569440550061","X1290.10614195186","X1483.5127937558","X572.983469849685","X1481.71744215929","X863.450787624042","X1294.76996617538","X303.990320794109","X1433.16689897212","X1156.151369041","X1415.80145390607","X2074.20609166291","X2486.21811949071","X2467.44246788182","X2012.59611050625","X554.188298634396","X1406.04888440876","X1350.42954389757"],"base_transit_network_stops_bbox",{"interactive":true,"className":"","pane":"tmap402","stroke":true,"color":["#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA"],"weight":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"opacity":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fill":false,"fillColor":["#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA"],"fillOpacity":0.2,"dashArray":"none","smoothFactor":1,"noClip":false},["<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27643.5763042834<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,644<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3068.47903623668<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,068<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>4457.99626642588<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>4,458<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2414.47167115758<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,414<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>16574.8112011145<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>16,575<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>95515.0456562026<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>95,515<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>14208.4877687648<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>14,208<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>6941.85501581185<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>6,942<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27328.8205512419<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,329<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>95615.9747217576<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>95,616<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2957.55172436829<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,958<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>16494.2230350268<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>16,494<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>6991.52513210117<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>6,992<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2451.43389636549<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,451<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27589.6832529454<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,590<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>8055.26236285065<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>8,055<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27382.1032366811<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,382<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3058.73877262184<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,059<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>14369.1899593617<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>14,369<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3644.65259518879<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,645<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>972.464021802207<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>972<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>5378.24766396415<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>5,378<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>5496.46292386483<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>5,496<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1427.23873774355<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,427<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2878.45312943926<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,878<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1209.58908569577<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,210<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2557.98868414323<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,558<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>609.622146794369<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>610<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2811.90632598107<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,812<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2178.18894799562<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,178<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>493.569440550061<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>494<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1290.10614195186<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,290<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1483.5127937558<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,484<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>572.983469849685<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>573<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1481.71744215929<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,482<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>863.450787624042<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>863<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1294.76996617538<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,295<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>303.990320794109<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>304<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1433.16689897212<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,433<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1156.151369041<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,156<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1415.80145390607<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,416<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2074.20609166291<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,074<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2486.21811949071<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,486<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2467.44246788182<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,467<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2012.59611050625<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,013<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>554.188298634396<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>554<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1406.04888440876<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,406<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1350.42954389757<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,350<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>"],null,["27643.5763042834","3068.47903623668","4457.99626642588","2414.47167115758","16574.8112011145","95515.0456562026","14208.4877687648","6941.85501581185","27328.8205512419","95615.9747217576","2957.55172436829","16494.2230350268","6991.52513210117","2451.43389636549","27589.6832529454","8055.26236285065","27382.1032366811","3058.73877262184","14369.1899593617","3644.65259518879","972.464021802207","5378.24766396415","5496.46292386483","1427.23873774355","2878.45312943926","1209.58908569577","2557.98868414323","609.622146794369","2811.90632598107","2178.18894799562","493.569440550061","1290.10614195186","1483.5127937558","572.983469849685","1481.71744215929","863.450787624042","1294.76996617538","303.990320794109","1433.16689897212","1156.151369041","1415.80145390607","2074.20609166291","2486.21811949071","2467.44246788182","2012.59611050625","554.188298634396","1406.04888440876","1350.42954389757"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[39.2124985999999,-76.8600466999999,2.12132034355964,"Columbia.Town.Center...Symphony.Woods.Road.and.Mall.Ring.Road","columbia_us29_stop",{"interactive":true,"className":"","pane":"tmap403","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":"#8400A8","fillOpacity":1},null,null,"<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Columbia Town Center / Symphony Woods Road and Mall Ring Road<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Town Center / Symphony Woods Road and Mall Ring Road<\/nobr><\/td><\/tr><\/table><\/div>",null,"Columbia Town Center / Symphony Woods Road and Mall Ring Road",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#8400A8"],"labels":["US29 BRT Stop - Columbia Town Center"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"unknown","title":"","extra":null,"layerId":"legend NA","className":"info legend","group":null}]},{"method":"addLegend","args":[{"colors":["#F29C20"],"labels":["Base Transit Network Stops"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"unknown","title":"","extra":null,"layerId":"legend NA","className":"info legend","group":null}]},{"method":"addLayersControl","args":[[],["base_stops_bbox","base_transit_network_stops_bbox","columbia_us29_stop"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[39.2052543495391,39.219747947653],"lng":[-76.8693735011205,-76.8507143577361]},"fitBounds":[39.2067500002585,-76.8684737079518,39.2194070070439,-76.8574253493104,[]]},"evals":[],"jsHooks":[]}</script>
+<p><strong>Figure 5. Columbia Town Center Stop Reconfiguration</strong> <div id="htmlwidget-1a8701142517cb2b57cf" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1a8701142517cb2b57cf">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"createMapPane","args":["tmap402",402]},{"method":"createMapPane","args":["tmap403",403]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[39.2129660004315,39.206849999939,39.2067500002585,39.2129920002522,39.2124986000302,39.2070322621602,39.2071338827002,39.2129260149188,39.2114854722184,39.2152797176738,39.2190896319189,39.2192325508392,39.2152792881098,39.2121186693882,39.2116852197611,39.213067531226,39.217855688413,39.2194070070439,39.2189504134816,39.2180821681561,39.2129712100889,39.2124986000302],[-76.8635489990012,-76.8668359993674,-76.8664529992592,-76.8632169984507,-76.8600466992788,-76.8669809249852,-76.8666037589293,-76.8633692215164,-76.8587653689365,-76.8574253493104,-76.8584166027898,-76.858994791315,-76.8577341967204,-76.8581123605174,-76.8590291883312,-76.8634515806412,-76.8634000296101,-76.861095546985,-76.8616149964548,-76.8633014628891,-76.8684737079518,-76.8600466992788],[4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928,4.24264068711928],["Marylandtransitadministration.11779","Marylandtransitadministration.11782","Marylandtransitadministration.11843","Marylandtransitadministration.11844","RTACentralMDfuture.169","RTACentralMDfuture.167","RTACentralMDfuture.170","RTACentralMDfuture.850","RTACentralMDfuture.682","RTACentralMDfuture.684","RTACentralMDfuture.673","RTACentralMDfuture.674","RTACentralMDfuture.683","RTACentralMDfuture.681","RTACentralMDfuture.Main.Library","RTACentralMDfuture.849","RTACentralMDfuture.676","RTACentralMDfuture.815","RTACentralMDfuture.675","RTACentralMDfuture.677","RTACentralMDfuture.1003","US29BRT2020.8"],"build_stops_bbox",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20","#F29C20"],"fillOpacity":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},null,null,["<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11779<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11779<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11779<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>COLUMBIA MALL &amp; SOUTH RING RD eb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11782<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11782<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11782<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>BROKEN LAND &amp; HICKORY RIDGE sb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11843<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11843<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11843<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>BROKENLAND &amp; HICKORY RDG opp nb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Marylandtransitadministration:11844<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>Marylandtransitadministration:11844<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>11844<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>COLUMBIA MALL &amp; RING RD wb<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:169<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:169<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Mall<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:167<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:167<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Broken Land Pkwy @ Hickory Ridge Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:170<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:170<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Broken Land Pkwy @ Hickory Ridge Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:850<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:850<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Loop Rd @ Mall Access Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:682<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:682<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Howard County Library System<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:684<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:684<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Wincopin Cir<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:673<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:673<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Sterrett Pl<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:674<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:674<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Sterrett Pl<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:683<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:683<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Wincopin Cir<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:681<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:681<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Swift Stream Pl<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:Main Library<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:Main Library<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Main Library<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:849<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:849<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Loop Rd @ Legg Mason<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:676<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:676<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Mall @ Nordstrom<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:815<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:815<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Windstream Dr @ Loop Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:675<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:675<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Windstream Dr @ Loop Rd<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:677<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:677<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Mall @ Nordstrom<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>RTACentralMDfuture:1003<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>RTACentralMDfuture:1003<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Little Patuxent Pkwy @ Governor Warfield Pkwy<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr>0<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>US29BRT2020:8<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_id<\/nobr><\/td><td align=\"right\"><nobr>US29BRT2020:8<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_code<\/nobr><\/td><td align=\"right\"><nobr>8<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Town Center<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_desc<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>zone_id<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>stop_url<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>location_type<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>parent_station<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>wheelchair_boarding<\/nobr><\/td><td align=\"right\"><nobr><\/nobr><\/td><\/tr><\/table><\/div>"],null,["Marylandtransitadministration:11779","Marylandtransitadministration:11782","Marylandtransitadministration:11843","Marylandtransitadministration:11844","RTACentralMDfuture:169","RTACentralMDfuture:167","RTACentralMDfuture:170","RTACentralMDfuture:850","RTACentralMDfuture:682","RTACentralMDfuture:684","RTACentralMDfuture:673","RTACentralMDfuture:674","RTACentralMDfuture:683","RTACentralMDfuture:681","RTACentralMDfuture:Main Library","RTACentralMDfuture:849","RTACentralMDfuture:676","RTACentralMDfuture:815","RTACentralMDfuture:675","RTACentralMDfuture:677","RTACentralMDfuture:1003","US29BRT2020:8"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[-76.8587013158332,-76.8635489990012],"lat":[39.2197452637622,39.2129660004315]}]],[[{"lng":[-76.8635489990012,-76.8591702626898],"lat":[39.2129660004315,39.2197458274341]}]],[[{"lng":[-76.8635489990012,-76.8593850902639],"lat":[39.2129660004315,39.21974608503]}]],[[{"lng":[-76.8635489990012,-76.8668359993674],"lat":[39.2129660004315,39.206849999939]}]],[[{"lng":[-76.8635489990012,-76.8507385360301],"lat":[39.2129660004315,39.2081698313416]}]],[[{"lng":[-76.8599854601992,-76.8693735011205],"lat":[39.2197468028378,39.2073117391735]}]],[[{"lng":[-76.8509718253901,-76.8507146236676],"lat":[39.2197357029654,39.2195459494514]}]],[[{"lng":[-76.8668359993674,-76.8652495138687],"lat":[39.206849999939,39.2052564001391]}]],[[{"lng":[-76.8689201104393,-76.8635489990012],"lat":[39.205260558168,39.2129660004315]}]],[[{"lng":[-76.8693724081828,-76.8604638610603],"lat":[39.2079059703762,39.2197473726194]}]],[[{"lng":[-76.8693533171967,-76.8635489990012],"lat":[39.2182841370899,39.2129660004315]}]],[[{"lng":[-76.8507382956261,-76.8632169984507],"lat":[39.208284219973,39.2129920002522]}]],[[{"lng":[-76.8649775576819,-76.8664529992592],"lat":[39.2052560874998,39.2067500002585]}]],[[{"lng":[-76.8664529992592,-76.8632169984507],"lat":[39.2067500002585,39.2129920002522]}]],[[{"lng":[-76.8632169984507,-76.8584200345992],"lat":[39.2129920002522,39.2197449247644]}]],[[{"lng":[-76.8632169984507,-76.8693593873767],"lat":[39.2129920002522,39.2149846218511]}]],[[{"lng":[-76.8632169984507,-76.8686432687316],"lat":[39.2129920002522,39.2052602485671]}]],[[{"lng":[-76.8632169984507,-76.8693528016182],"lat":[39.2129920002522,39.2185643713738]}]],[[{"lng":[-76.8507143577361,-76.8507989799905],"lat":[39.219672443571,39.2197354833493]}]],[[{"lng":[-76.8596314513605,-76.8632169984507],"lat":[39.2197463799532,39.2129920002522]}]],[[{"lng":[-76.8684737079518,-76.8693624551531],"lat":[39.2129712100889,39.213316979393]}]],[[{"lng":[-76.8634756301798,-76.8666037589293],"lat":[39.2052543495391,39.2071338827002]}]],[[{"lng":[-76.8669809249852,-76.8641133618027],"lat":[39.2070322621602,39.205255089841]}]],[[{"lng":[-76.8600466992788,-76.8684737079518],"lat":[39.2124986000302,39.2129712100889]}]],[[{"lng":[-76.8600466992788,-76.8669809249852],"lat":[39.2124986000302,39.2070322621602]}]],[[{"lng":[-76.8600466992788,-76.8634000296101],"lat":[39.2124986000302,39.217855688413]}]],[[{"lng":[-76.8600466992788,-76.8693524826096],"lat":[39.2124986000302,39.2187377622129]}]],[[{"lng":[-76.8600466992788,-76.8633692215164],"lat":[39.2124986000302,39.2129260149188]}]],[[{"lng":[-76.8666037589293,-76.8600466992788],"lat":[39.2071338827002,39.2124986000302]}]],[[{"lng":[-76.8693619037296,-76.8600466992788],"lat":[39.213616738882,39.2124986000302]}]],[[{"lng":[-76.8584166027898,-76.8585633932334],"lat":[39.2190896319189,39.2197450976232]}]],[[{"lng":[-76.858994791315,-76.8633014628891],"lat":[39.2192325508392,39.2180821681561]}]],[[{"lng":[-76.858994791315,-76.8577341967204],"lat":[39.2192325508392,39.2152792881098]}]],[[{"lng":[-76.8616149964548,-76.8633014628891],"lat":[39.2189504134816,39.2180821681561]}]],[[{"lng":[-76.8634000296101,-76.8584166027898],"lat":[39.217855688413,39.2190896319189]}]],[[{"lng":[-76.8634000296101,-76.861095546985],"lat":[39.217855688413,39.2194070070439]}]],[[{"lng":[-76.8633014628891,-76.8600466992788],"lat":[39.2180821681561,39.2124986000302]}]],[[{"lng":[-76.8581123605174,-76.8590291883312],"lat":[39.2121186693882,39.2116852197611]}]],[[{"lng":[-76.8587653689365,-76.8574253493104],"lat":[39.2114854722184,39.2152797176738]}]],[[{"lng":[-76.8577341967204,-76.8581123605174],"lat":[39.2152792881098,39.2121186693882]}]],[[{"lng":[-76.8574253493104,-76.8584166027898],"lat":[39.2152797176738,39.2190896319189]}]],[[{"lng":[-76.8587908544569,-76.858994791315],"lat":[39.2197453715319,39.2192325508392]}]],[[{"lng":[-76.8609483402984,-76.8616149964548],"lat":[39.219747947653,39.2189504134816]}]],[[{"lng":[-76.8693528164017,-76.8600466992788],"lat":[39.2185563360947,39.2124986000302]}]],[[{"lng":[-76.861095546985,-76.8607733775049],"lat":[39.2194070070439,39.2197477402185]}]],[[{"lng":[-76.8634515806412,-76.8600466992788],"lat":[39.213067531226,39.2124986000302]}]],[[{"lng":[-76.8633692215164,-76.8587653689365],"lat":[39.2129260149188,39.2114854722184]}]],[[{"lng":[-76.8590291883312,-76.8634515806412],"lat":[39.2116852197611,39.213067531226]}]],[[{"lng":[-76.8655632774916,-76.8600466992788],"lat":[39.2052567600569,39.2124986000302]}]],[[{"lng":[-76.8600466992788,-76.8654160878158],"lat":[39.2124986000302,39.2052565913203]}]],[[{"lng":[-76.8600466992788,-76.852500131069],"lat":[39.2124986000302,39.219737633742]}]],[[{"lng":[-76.852500131069,-76.8600466992788],"lat":[39.219737633742,39.2124986000302]}]]],["X27643.5763042834","X3068.47903623668","X4457.99626642588","X2414.47167115758","X16574.8112011145","X95515.0456562026","X14208.4877687648","X6941.85501581185","X27328.8205512419","X95615.9747217576","X2957.55172436829","X16494.2230350268","X6991.52513210117","X2451.43389636549","X27589.6832529454","X8055.26236285065","X27382.1032366811","X3058.73877262184","X14369.1899593617","X3644.65259518879","X972.464021802207","X5378.24766396415","X5496.46292386483","X2393.94291314817","X2797.25507185062","X2170.21673789064","X3862.7870196907","X954.203124014518","X2696.3053367531","X3284.64600360364","X493.569440550061","X1290.10614195186","X1483.5127937558","X572.983469849685","X1481.71744215929","X863.450787624042","X2232.9932887297","X303.990320794109","X1433.16689897212","X1156.151369041","X1415.80145390607","X2074.20609166291","X2486.21811949071","X3774.99866036246","X2012.59611050625","X986.756869072125","X1406.04888440876","X1350.42954389757","X21889.5576202406","X27600.9356468528","X18900.4858849972","X18900.4858849972.1"],"build_transit_network_stops_bbox",{"interactive":true,"className":"","pane":"tmap402","stroke":true,"color":["#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA"],"weight":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"opacity":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fill":false,"fillColor":["#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA","#3FBFBA"],"fillOpacity":0.2,"dashArray":"none","smoothFactor":1,"noClip":false},["<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27643.5763042834<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,644<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3068.47903623668<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,068<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>4457.99626642588<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>4,458<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2414.47167115758<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,414<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>16574.8112011145<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>16,575<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>95515.0456562026<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>95,515<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>14208.4877687648<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>14,208<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>6941.85501581185<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>6,942<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27328.8205512419<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,329<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>95615.9747217576<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>95,616<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2957.55172436829<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,958<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>16494.2230350268<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>16,494<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>6991.52513210117<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>6,992<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2451.43389636549<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,451<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27589.6832529454<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,590<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>8055.26236285065<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>8,055<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27382.1032366811<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,382<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3058.73877262184<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,059<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>14369.1899593617<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>14,369<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3644.65259518879<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,645<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>972.464021802207<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>972<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>5378.24766396415<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>5,378<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>5496.46292386483<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>5,496<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2393.94291314817<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,394<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2797.25507185062<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,797<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2170.21673789064<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,170<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3862.7870196907<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,863<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>954.203124014518<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>954<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2696.3053367531<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,696<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3284.64600360364<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,285<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>493.569440550061<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>494<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1290.10614195186<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,290<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1483.5127937558<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,484<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>572.983469849685<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>573<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1481.71744215929<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,482<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>863.450787624042<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>863<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2232.9932887297<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,233<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>303.990320794109<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>304<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1433.16689897212<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,433<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1156.151369041<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,156<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1415.80145390607<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,416<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2074.20609166291<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,074<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2486.21811949071<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,486<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>3774.99866036246<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>3,775<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>2012.59611050625<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>2,013<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>986.756869072125<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>987<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1406.04888440876<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,406<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1350.42954389757<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>1,350<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>21889.5576202406<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>21,890<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>27600.9356468528<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>27,601<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>18900.4858849972<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>18,900<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>18900.4858849972<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Shape_Length<\/nobr><\/td><td align=\"right\"><nobr>18,900<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type<\/nobr><\/td><td align=\"right\"><nobr>3<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>route_type_text<\/nobr><\/td><td align=\"right\"><nobr>Bus<\/nobr><\/td><\/tr><\/table><\/div>"],null,["27643.5763042834","3068.47903623668","4457.99626642588","2414.47167115758","16574.8112011145","95515.0456562026","14208.4877687648","6941.85501581185","27328.8205512419","95615.9747217576","2957.55172436829","16494.2230350268","6991.52513210117","2451.43389636549","27589.6832529454","8055.26236285065","27382.1032366811","3058.73877262184","14369.1899593617","3644.65259518879","972.464021802207","5378.24766396415","5496.46292386483","2393.94291314817","2797.25507185062","2170.21673789064","3862.7870196907","954.203124014518","2696.3053367531","3284.64600360364","493.569440550061","1290.10614195186","1483.5127937558","572.983469849685","1481.71744215929","863.450787624042","2232.9932887297","303.990320794109","1433.16689897212","1156.151369041","1415.80145390607","2074.20609166291","2486.21811949071","3774.99866036246","2012.59611050625","986.756869072125","1406.04888440876","1350.42954389757","21889.5576202406","27600.9356468528","18900.4858849972","18900.4858849972"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[39.2124985999999,-76.8600466999999,2.12132034355964,"Columbia.Town.Center...Symphony.Woods.Road.and.Mall.Ring.Road","columbia_us29_stop",{"interactive":true,"className":"","pane":"tmap403","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":"#8400A8","fillOpacity":1},null,null,"<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>Columbia Town Center / Symphony Woods Road and Mall Ring Road<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>Name<\/nobr><\/td><td align=\"right\"><nobr>Columbia Town Center / Symphony Woods Road and Mall Ring Road<\/nobr><\/td><\/tr><\/table><\/div>",null,"Columbia Town Center / Symphony Woods Road and Mall Ring Road",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#8400A8"],"labels":["US29 BRT Stop - Columbia Town Center"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"unknown","title":"","extra":null,"layerId":"legend NA","className":"info legend","group":null}]},{"method":"addLegend","args":[{"colors":["#F29C20"],"labels":["Build Transit Network Stops"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"unknown","title":"","extra":null,"layerId":"legend NA","className":"info legend","group":null}]},{"method":"addLayersControl","args":[[],["build_stops_bbox","build_transit_network_stops_bbox","columbia_us29_stop"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[39.2052543495391,39.219747947653],"lng":[-76.8693735011205,-76.8507143577361]},"fitBounds":[39.2067500002585,-76.8684737079518,39.2194070070439,-76.8574253493104,[]]},"evals":[],"jsHooks":[]}</script></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
