@@ -42,4 +42,5 @@ vignettes/*.pdf
 /*
 /*/
 !/docs/
+!/docs
 !.gitignore
