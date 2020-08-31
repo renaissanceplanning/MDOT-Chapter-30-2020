@@ -40,7 +40,6 @@ vignettes/*.pdf
 
 # basic scripts
 /*
-/*/
 !/docs/
 !/docs
 !.gitignore
